@@ -4,7 +4,7 @@ using System.Collections;
 public class PlayerClass : MonoBehaviour {
 	
 	Rigidbody2D rb;
-
+	public Transform explosion;
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody2D>();
@@ -18,8 +18,15 @@ public class PlayerClass : MonoBehaviour {
     {
         if (other.gameObject.tag == "Floor")
         {
+			Instantiate(explosion, this.transform.position, Quaternion.identity);
             Destroy(this.gameObject);
         }
+		if (other.gameObject.tag == "Obstacle")
+		{
+			Instantiate(explosion, this.transform.position, Quaternion.identity);
+			Destroy(this.gameObject);
+			Destroy(other.gameObject);
+		}
     }
     
 }

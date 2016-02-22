@@ -6,17 +6,19 @@ public class SpawnObstacles : MonoBehaviour {
     public GameObject obstacle;
     private float coordY;
     private Vector2 objectPos;
+    public Camera cam;
 
 	// Use this for initialization
 	void Start () {
         InvokeRepeating("Spawn", 3.0f, 5.0f);
+		cam = FindObjectOfType<Camera>();
+		objectPos.x = cam.orthographicSize * 1.5f;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-        coordY = Random.Range(-5.0f, 5.0f);
-        objectPos.x = 6.68f;
-        objectPos.y = coordY;
+
+	void Update()
+	{
+		coordY = Random.Range(-cam.orthographicSize, cam.orthographicSize);
+		objectPos.y = coordY;
 	}
 
     void Spawn()
