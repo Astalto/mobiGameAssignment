@@ -19,9 +19,16 @@ public class Data {
         return instance;
     }
 
+    private int[] savedHighscores = new int[3];
+
     private Data()
     {
-
+        savedHighscores = PlayerPrefsX.GetIntArray("Highscores", 0, 3);
+        for (int i = 0; i < savedHighscores.Length; i++)
+        {
+            Highscores.Add(savedHighscores[i]);
+        }
+        Highscores.Sort();
     }
 
     #endregion Setup
@@ -30,14 +37,20 @@ public class Data {
 
     private List<int> Highscores = new List<int>();
 
-    public void SetHighscore()
+    public void AddtoHighscore()
     {
-
+        Highscores.Add(currentScore);
+        Highscores.Sort();
+        for (int i = 0; i < savedHighscores.Length; i++)
+        {
+            savedHighscores[i] = Highscores[i];
+        }
+        PlayerPrefsX.SetIntArray("Highscores", savedHighscores);
     }
 
-    public void GetHighscore()
+    public List<int> GetHighscore()
     {
-        
+        return Highscores;
     }
 
     #endregion HighScore
