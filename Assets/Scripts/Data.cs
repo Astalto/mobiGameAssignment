@@ -5,50 +5,56 @@ using System.Linq;
 
 public class Data {
 
-	public class Highscore
-	{
-		public string Name;
-		public int Score;
-	}
+    #region Setup
 
-	public List<Highscore> Records = new List<Highscore>();
+    private static Data instance = null;
 
-	public void AddRecord(string name, int score)
-	{
-		Records.Add(new Highscore()
-		{
-			Name = name,
-			Score = score
-		});
+    public static Data Instance()
+    {
+        if (instance == null)
+        {
+            instance = new Data();
+        }
 
-		Records = Records.OrderByDescending(p => p.Score).Take(3).ToList();
+        return instance;
+    }
 
-		string recordAsString = string.Join(";", Records.Select<Highscore, string>(RecordToString).ToArray());
+    private Data()
+    {
 
-		PlayerPrefs.SetString("Highscores", recordAsString);
-	}
+    }
 
-	private string RecordToString(Highscore record)
-	{
-		return record.Name + ':' + record.Score;
-	}
+    #endregion Setup
 
-	private Highscore RecordFromString(string str)
-	{
-		string[] parts = str.Split(':');
-		return new Highscore()
-		{
-			Name = parts[0],
-			Score = int.Parse(parts[1])
-		};
-	}
+    #region HighScore
 
-	public void ReadHighscores()
-	{
-		if (!PlayerPrefs.HasKey("Highscores")) return;
+    private List<int> Highscores = new List<int>();
 
-		Records = PlayerPrefs.GetString("Highscores").Split(';').Select<string, Highscore>(RecordFromString).ToList();
+    public void SetHighscore()
+    {
 
-	}
+    }
 
+    public void GetHighscore()
+    {
+        
+    }
+
+    #endregion HighScore
+
+    #region Current Score
+
+    private int currentScore = 0;
+
+    public void SetScore(int newScore)
+    {
+        currentScore = newScore;
+    }
+
+    public int GetScore()
+    {
+        return currentScore;
+    }
+
+    #endregion Current Score
 }
