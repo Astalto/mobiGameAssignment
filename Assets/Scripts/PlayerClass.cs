@@ -42,7 +42,7 @@ public class PlayerClass : MonoBehaviour {
             Instantiate(explosion, this.transform.position, Quaternion.identity);
             data.SetScore((int)gameScore);
 
-            Destroy(gameObject);
+			Destroy(this.gameObject);
             Destroy(other.gameObject);
             StartCoroutine(EndGame());
         }
