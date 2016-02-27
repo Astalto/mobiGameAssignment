@@ -1,13 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class PlayerClass : MonoBehaviour {
     private float gameScore;
     Rigidbody2D rb;
 
     public Transform explosion;
+    private Data data;
     // Use this for initialization
     void Start() {
+        data = FindObjectOfType<Data>();
         rb = GetComponent<Rigidbody2D>();
         gameScore = 0;
     }
@@ -34,8 +37,11 @@ public class PlayerClass : MonoBehaviour {
         if (other.gameObject.tag == "Obstacle")
         {
             Instantiate(explosion, this.transform.position, Quaternion.identity);
-            Destroy(this.gameObject);
+            data.SetScore((int)gameScore);
+
+            Destroy(gameObject);
             Destroy(other.gameObject);
+            StartCoroutine(EndGame());
         }
     }
 
@@ -51,5 +57,11 @@ public class PlayerClass : MonoBehaviour {
     public float getScore()
     {
         return gameScore;
+    }
+
+    private IEnumerator EndGame()
+    {
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(2);
     }
 }

@@ -3,32 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class Data {
+public class Data : Singleton<Data>{
 
     #region Setup
 
-    private static Data instance = null;
-
-    public static Data Instance()
-    {
-        if (instance == null)
-        {
-            instance = new Data();
-        }
-
-        return instance;
-    }
-
-    private int[] savedHighscores = new int[3];
-
     private Data()
     {
-        savedHighscores = PlayerPrefsX.GetIntArray("Highscores", 0, 3);
-        for (int i = 0; i < savedHighscores.Length; i++)
-        {
-            Highscores.Add(savedHighscores[i]);
-        }
-        Highscores.Sort();
+        
     }
 
     #endregion Setup
@@ -39,6 +20,7 @@ public class Data {
 
     public void AddtoHighscore()
     {
+        int[] savedHighscores = new int[3];
         Highscores.Add(currentScore);
         Highscores.Sort();
         for (int i = 0; i < savedHighscores.Length; i++)
@@ -50,6 +32,13 @@ public class Data {
 
     public List<int> GetHighscore()
     {
+        int[] savedHighscores = new int[3];
+        savedHighscores = PlayerPrefsX.GetIntArray("Highscores", 0, 3);
+        for (int i = 0; i < savedHighscores.Length; i++)
+        {
+            Highscores.Add(savedHighscores[i]);
+        }
+        Highscores.Sort();
         return Highscores;
     }
 
