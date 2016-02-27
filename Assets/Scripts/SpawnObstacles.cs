@@ -4,7 +4,9 @@ using System.Collections;
 public class SpawnObstacles : MonoBehaviour {
 
     public GameObject obstacle;
+    public GameObject coin;
     private float coordY;
+    private float RNG;
     private Vector2 objectPos;
     public Camera cam;
 
@@ -23,6 +25,14 @@ public class SpawnObstacles : MonoBehaviour {
 
     void Spawn()
     {
-        Instantiate(obstacle, objectPos, Quaternion.Euler(0.0f, 180.0f, 0.0f));
+        RNG = Random.Range(0.0f, 100.0f);
+        if (RNG >= 40.0f)
+        {
+            Instantiate(obstacle, objectPos, Quaternion.Euler(0.0f, 180.0f, 0.0f));
+        }
+        else if (RNG < 40.0f)
+        {
+            Instantiate(coin, objectPos, Quaternion.Euler(0.0f, 180.0f, 0.0f));
+        }
     }
 }

@@ -3,11 +3,14 @@ using System.Collections;
 
 public class BackgroundMovement : MonoBehaviour {
 
-    [Tooltip("Speed of the background/game")]
-    public float speed;
-
     void Update()
     {
-        transform.Translate(Vector2.left * Time.deltaTime * speed);
+        MeshRenderer mr = GetComponent<MeshRenderer>();
+        Material bgmat = mr.material;
+
+        Vector2 offset = bgmat.mainTextureOffset;
+        offset.x += Time.deltaTime / 4.0f;
+        bgmat.mainTextureOffset = offset;
+
     }
 }
