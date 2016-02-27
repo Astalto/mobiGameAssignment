@@ -45,9 +45,13 @@ public class PlayerClass : MonoBehaviour {
             Instantiate(explosion, this.transform.position, Quaternion.identity);
             data.SetScore((int)gameScore);
 
+<<<<<<< HEAD
             sprite.enabled = false;
             box.enabled = false;
 
+=======
+			Destroy(this.gameObject);
+>>>>>>> 472381d5c852d78615d516f797939747c76921d5
             Destroy(other.gameObject);
             StartCoroutine(EndGame());
         }
