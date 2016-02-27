@@ -19,16 +19,31 @@ public class Data : Singleton<Data>{
 
     private List<int> Highscores = new List<int>();
 
-    public void AddtoHighscore()
+    public void AddtoHighscore(float score)
     {
-        int[] savedHighscores = new int[3];
-        Highscores.Add(currentScore);
+        List<int> savedHighscores = new List<int>();
+        Highscores.Add((int)score);
         Highscores.Sort();
-        for (int i = 0; i < savedHighscores.Length; i++)
+        for (int i = 0; i < savedHighscores.Count; i++)
         {
             savedHighscores[i] = Highscores[i];
         }
-        PlayerPrefsX.SetIntArray("Highscores", savedHighscores);
+        if (savedHighscores.Count == 0)
+        {
+            savedHighscores.Add(0);
+            savedHighscores.Add(0);
+            savedHighscores.Add(0);
+        }
+        else if (savedHighscores.Count == 1)
+        {
+            savedHighscores.Add(0);
+            savedHighscores.Add(0);
+        }
+        else if (savedHighscores.Count == 2)
+        {
+            savedHighscores.Add(0);
+        }
+        PlayerPrefsX.SetIntArray("Highscores", savedHighscores.ToArray());
     }
 
     public List<int> GetHighscore()

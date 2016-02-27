@@ -10,20 +10,18 @@ public class LeaderboardUI : MonoBehaviour {
     public Text CurrentScore;
 
     private Data data;
-    private List<int> Highscore = new List<int>();
+    private int[] Highscore = new int[3];
 
     private void Start()
     {
         data = FindObjectOfType<Data>();
-        Highscore = data.GetHighscore();
-        Highscore.Add(data.GetScore());
-        Highscore.Sort();
+        Highscore = data.GetHighscore().ToArray();
+
         for (int i = 0; i < ScoresText.Length; i++)
         {
-            ScoresText[i].text = Highscore.IndexOf(i).ToString();
+            ScoresText[i].text = Highscore[i].ToString();
         }
         CurrentScore.text = data.GetScore().ToString();
-        data.AddtoHighscore();
     }
 
     public void MainMenu()
