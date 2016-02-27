@@ -23,8 +23,11 @@ public class PlayerClass : MonoBehaviour {
 
     public void ReceiveInput(Vector2 swipeVector, float swipeDistance) {
         if (swipeVector.y > 0) {
-            rb.AddForce(new Vector2(0, swipeVector.y) * 0.001f * swipeDistance);
+			rb.AddForce(new Vector2(0, swipeVector.y) * Mathf.Clamp(0.0005f * swipeDistance, 0.0f, 0.1f));
         }
+		if (swipeVector.y < 0) {
+			rb.AddForce(new Vector2(0, swipeVector.y) * Mathf.Clamp(0.0001f * swipeDistance, 0.0f, 0.1f));
+		}
     }
 
     void OnCollisionEnter2D(Collision2D other)
