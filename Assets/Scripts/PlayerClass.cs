@@ -8,8 +8,11 @@ public class PlayerClass : MonoBehaviour {
 
     public Transform explosion;
     private Data data;
+    private SpriteRenderer sprite;
+    private BoxCollider2D box;
     // Use this for initialization
     void Start() {
+        sprite = GetComponent<SpriteRenderer>();
         data = FindObjectOfType<Data>();
         rb = GetComponent<Rigidbody2D>();
         gameScore = 0;
@@ -42,7 +45,9 @@ public class PlayerClass : MonoBehaviour {
             Instantiate(explosion, this.transform.position, Quaternion.identity);
             data.SetScore((int)gameScore);
 
-            Destroy(gameObject);
+            sprite.enabled = false;
+            box.enabled = false;
+
             Destroy(other.gameObject);
             StartCoroutine(EndGame());
         }

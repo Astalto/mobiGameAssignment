@@ -7,6 +7,7 @@ public class Data : Singleton<Data>{
 
     #region Setup
 
+    // Constructor
     private Data()
     {
         
