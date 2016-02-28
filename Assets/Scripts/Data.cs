@@ -1,9 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 
 public class Data : Singleton<Data>{
+
+	#region Variables
+
+	private int currentScore = 0;
+
+	#endregion Variables
 
     #region Setup
 
@@ -17,56 +22,38 @@ public class Data : Singleton<Data>{
 
     #region HighScore
 
-    private List<int> Highscores = new List<int>();
+    public void SetHighscoreArray (float score)
+	{
+		int[] savedHighscore = new int[3];
+		int tempScore;
+		int paramScore = (int)score;
+		for (int i = 0; i < savedHighscore.Length; i++) 
+		{
+			if (savedHighscore [i] < paramScore) 
+			{
+				tempScore = savedHighscore [i];
+				savedHighscore [i] = paramScore;
+				paramScore = tempScore;
+			}
+		}
 
-    public void AddtoHighscore(float score)
-    {
-        List<int> savedHighscores = new List<int>();
-        Highscores.Add((int)score);
-        Highscores.Sort();
-        for (int i = 0; i < savedHighscores.Count; i++)
-        {
-            savedHighscores[i] = Highscores[i];
-        }
-        if (savedHighscores.Count == 0)
-        {
-            savedHighscores.Add(0);
-            savedHighscores.Add(0);
-            savedHighscores.Add(0);
-        }
-        else if (savedHighscores.Count == 1)
-        {
-            savedHighscores.Add(0);
-            savedHighscores.Add(0);
-        }
-        else if (savedHighscores.Count == 2)
-        {
-            savedHighscores.Add(0);
-        }
-        PlayerPrefsX.SetIntArray("Highscores", savedHighscores.ToArray());
+        PlayerPrefsX.SetIntArray("Highscores", savedHighscore);
     }
 
-    public List<int> GetHighscore()
+    public int[] GetHighscore()
     {
-        int[] savedHighscores = new int[3];
-        savedHighscores = PlayerPrefsX.GetIntArray("Highscores", 0, 3);
-        for (int i = 0; i < savedHighscores.Length; i++)
-        {
-            Highscores.Add(savedHighscores[i]);
-        }
-        Highscores.Sort();
-        return Highscores;
+		int[] savedHighscores = PlayerPrefsX.GetIntArray("Highscores", 0, 3);
+        return savedHighscores;
     }
 
     #endregion HighScore
 
     #region Current Score
 
-    private int currentScore = 0;
-
     public void SetScore(int newScore)
     {
         currentScore = newScore;
+        PlayerPrefs.SetInt("CurrentScore", currentScore);
     }
 
     public int GetScore()

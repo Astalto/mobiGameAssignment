@@ -7,9 +7,10 @@ public class PlayerClass : MonoBehaviour {
     Rigidbody2D rb;
 
     public Transform explosion;
+    public BoxCollider2D box;
     private Data data;
     private SpriteRenderer sprite;
-    private BoxCollider2D box;
+    private bool isDead = false;
     // Use this for initialization
     void Start() {
         sprite = GetComponent<SpriteRenderer>();
@@ -21,7 +22,8 @@ public class PlayerClass : MonoBehaviour {
     void Update()
     {
         //Increment the score by 5 every second
-        gameScore += Time.deltaTime * 5;
+        if (!isDead)
+        	gameScore += Time.deltaTime * 5;
     }
 
     public void ReceiveInput(Vector2 swipeVector, float swipeDistance) {
@@ -37,17 +39,16 @@ public class PlayerClass : MonoBehaviour {
     {
         if (other.gameObject.tag == "Obstacle" || other.gameObject.tag == "Floor")
         {
+        	isDead = true;
             Instantiate(explosion, this.transform.position, Quaternion.identity);
             data.SetScore((int)gameScore);
             sprite.enabled = false;
+            box.enabled = false;
             Destroy(other.gameObject);
             StartCoroutine(EndGame());
         }
-    }
 
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.tag == "Pickups")
+		if (other.gameObject.tag == "Pickups")
         {
             gameScore += 100;
             Destroy(other.gameObject);
@@ -62,7 +63,7 @@ public class PlayerClass : MonoBehaviour {
     private IEnumerator EndGame()
     {
         yield return new WaitForSeconds(2f);
-        data.AddtoHighscore(gameScore);
+        data.SetHighscoreArray(gameScore);
         SceneManager.LoadScene(2);
     }
 }
